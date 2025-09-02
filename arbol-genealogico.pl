@@ -65,11 +65,15 @@ es_prime_de(A, B):- es_progenitor_de(P1, A), es_progenitor_de(P2, B), es_hermane
 es_primo_de(A, B):- es_prime_de(A, B), es_hombre(A).
 es_prima_de(A, B):- es_prime_de(A, B), es_mujer(A).
 
+% Parejas (relación bidireccional)
+es_pareje_de(X, Y):- es_pareja_de(X, Y).
+es_pareje_de(X, Y):- es_pareja_de(Y, X).
+
 % Suegros / yerno / nuera (a partir de pareja)
-es_suegro_de(S, Y):- es_pareja_de(Y, X), es_padre_de(S, X).
-es_suegra_de(S, Y):- es_pareja_de(Y, X), es_madre_de(S, X).
-es_yerno_de(Y, P):- es_pareja_de(Y, X), es_progenitor_de(P, X), es_hombre(Y).
-es_nuera_de(N, P):- es_pareja_de(N, X), es_progenitor_de(P, X), es_mujer(N). 
+es_suegro_de(S, Y):- es_pareje_de(Y, X), es_padre_de(S, X).
+es_suegra_de(S, Y):- es_pareje_de(Y, X), es_madre_de(S, X).
+es_yerno_de(Y, P):- es_pareje_de(Y, X), es_progenitor_de(P, X), es_hombre(Y).
+es_nuera_de(N, P):- es_pareje_de(N, X), es_progenitor_de(P, X), es_mujer(N). 
 
 
 
