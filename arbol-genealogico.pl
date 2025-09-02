@@ -53,10 +53,23 @@ es_abuela_de(A, N):- es_madre_de(A, X), es_progenitor_de(X, N).
 
 % Hermanos (comparte al menos un progenitor)
 es_hermane_de(A, B):- es_progenitor_de(P, A), es_progenitor_de(P, B), A \= B.
-es_hermano_de(H, X):- es_hermane_de(H, X), hombre(H).
-es_hermana_de(H, X):- es_hermane_de(H, X), mujer(H).
+es_hermano_de(H, X):- es_hermane_de(H, X), es_hombre(H).
+es_hermana_de(H, X):- es_hermane_de(H, X), es_mujer(H).
 
+% Tios/Tías (hermanos del progenitor)
+es_tio_de(T, S):- es_hombre(T), es_progenitor_de(P, S), es_hermane_de(T, P).
+es_tia_de(T, S):- es_mujer(T), es_progenitor_de(P, S), es_hermane_de(T, P).
 
+% Primos (Hijos de los hermanos)
+es_prime_de(A, B):- es_progenitor_de(P1, A), es_progenitor_de(P2, B), es_hermane_de(P1, P2), A \= B.
+es_primo_de(A, B):- es_prime_de(A, B), es_hombre(A).
+es_prima_de(A, B):- es_prime_de(A, B), es_mujer(A).
+
+% Suegros / yerno / nuera (a partir de pareja)
+es_suegro_de(S, Y):- es_pareja_de(Y, X), es_padre_de(S, X).
+es_suegra_de(S, Y):- es_pareja_de(Y, X), es_madre_de(S, X).
+es_yerno_de(Y, P):- es_pareja_de(Y, X), es_progenitor_de(P, X), es_hombre(Y).
+es_nuera_de(N, P):- es_pareja_de(N, X), es_progenitor_de(P, X), es_mujer(N). 
 
 
 
